@@ -1,12 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>Hello, world!</p>
-    <p>"Project 1: TODO"</p>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <!--Icon ideas Book Fox-->
+    <!--https://www.flaticon.com/packs/graphic-designer-22-->
+    <div class="container">
+        <div class="row">
+            <div class="left col-sm-6">
+                <img src="../static/editorial.svg" alt="book-fox" height=400px>
+            </div>
+            <div class="right col-sm-6">
+                <h1>Welcome to Book Fox</h1>
+                <p>Some text here describing what to do</p>
+                <p>To get started, log in or <a href="/register">register</a></p>
+
+                <div id="sign-in">
+                    <form>
+                        <div class="username">
+                            <label for="exampleInputEmail1">Email address</label><br>
+                            <input id="exampleInputEmail1">
+                        </div>
+                        <div class="password">
+                            <label for="exampleInputPassword1">Password</label><br>
+                            <input type="password" id="exampleInputPassword1">
+                        </div>
+                        <button type="button" class="btn btn-dark">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

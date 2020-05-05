@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<!--Icon ideas Book Fox-->
+<!--https://www.flaticon.com/packs/graphic-designer-22-->
+<div class="container">
+    <div class="row">
+        <div id="left" class="left col-sm-6">
+            <div class="header">
+                <h1>Register<img src="../static/save.svg" alt="fox" height=60px /></h1>
+                <p>Some information about registering.</p>
+                <p>Some more information about registering.</p>
+                {% if True %}
+                <div class="apology">
+                    We are sorry!
+                </div>
+                {%endif%}
+            </div>
+        </div>
+        <div id="right" class="col-sm-6">
+            <div id="register">
+                <form>
+                    <div class="username">
+                        <label for="exampleInputEmail1">Email address</label><br>
+                        <input id="exampleInputEmail1">
+                    </div>
+                    <div class="password">
+                        <label for="exampleInputPassword1">Password</label><br>
+                        <input type="password" id="exampleInputPassword1">
+                    </div>
+                    <button type="button" class="btn btn-dark">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

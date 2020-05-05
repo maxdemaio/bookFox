@@ -1,0 +1,41 @@
+/*color docs: https://colorhunt.co/palette/181665 */
+body {
+    background-color: #f1e3cb;
+    color: #581c0c;
+}
+
+footer {
+    text-align: center;
+    margin: 10px;
+}
+
+h1, h2 {
+    color: #ca5116;
+}
+
+/* Distance from nav */
+.container {
+    margin-top: 30px;
+}
+
+/* Form stylings */
+#sign-in, #register {
+    background-color: #f9b384;
+    padding: 20px;
+    border-radius: 10px;
+}
+#sign-in div, #register div {
+    margin-bottom: 20px;
+}
+
+/* Style h1 and logo */
+.header img {
+    margin-left: 10px;
+}
+
+/* Apology flash */
+/* .apology {
+    text-align: left;
+    padding: 50px;
+    background-color: deepskyblue;
+} */
