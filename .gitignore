@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Personal
+flask_session/
+.vscode/
+
 # Distribution / packaging
 .Python
 build/
