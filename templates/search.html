@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div id="left" class="left col-sm-6">
+            <div class="header">
+                <h1>Search<img src="../static/search.svg" alt="fox" height=60px /></h1>
+                <p>Some information about searching.</p>
+                <p>Some more information about searching.</p>
+            </div>
+        </div>
+        <div id="right" class="col-sm-6">
+            <div id="search-form">
+                <form>
+                    <div>
+                        <input id="isbn-select" type="radio" name="search-option" value="isbn">
+                        <label for="isbn-select">ISBN</label>
+
+                        <input id="author-select" type="radio" name="search-option" value="author">
+                        <label for="author-select">Author</label>
+
+                        <input id="title-select" type="radio" name="search-option" value="title">
+                        <label for="title-select">Title</label>
+                    </div>
+                    <div>
+                        <label for="search-input">Search for</label><br>
+                        <input name="search" id="search-input">
+                    </div>
+                    <button type="button" class="btn btn-dark">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
