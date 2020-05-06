@@ -1,4 +1,5 @@
 /*color docs: https://colorhunt.co/palette/181665 */
+
 body {
     background-color: #f1e3cb;
     color: #581c0c;
@@ -13,18 +14,27 @@ h1, h2 {
     color: #ca5116;
 }
 
+input {
+    border-radius: 5px;
+}
+
 /* Distance from nav */
 .container {
     margin-top: 30px;
 }
 
+/* Index image styling for wrapping */
+#index-left > img {
+  width: 80%;
+}
+
 /* Form stylings */
-#sign-in, #register {
+#sign-in, #register, #search-form {
     background-color: #f9b384;
     padding: 20px;
     border-radius: 10px;
 }
-#sign-in div, #register div {
+#sign-in div, #register div, #search-form div {
     margin-bottom: 20px;
 }
 

@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<!--Icon ideas Book Fox-->
-<!--https://www.flaticon.com/packs/graphic-designer-22-->
+
 <div class="container">
     <div class="row">
         <div id="left" class="left col-sm-6">
@@ -25,12 +24,12 @@
             <div id="register">
                 <form>
                     <div class="username">
-                        <label for="exampleInputEmail1">Email address</label><br>
-                        <input id="exampleInputEmail1">
+                        <label for="register-user">Username</label><br>
+                        <input name="user" id="register-user">
                     </div>
-                    <div class="password">
-                        <label for="exampleInputPassword1">Password</label><br>
-                        <input type="password" id="exampleInputPassword1">
+                    <div class="pass">
+                        <label for="register-password">Password</label><br>
+                        <input name="password" type="password" id="register-password">
                     </div>
                     <button type="button" class="btn btn-dark">Register</button>
                 </form>
