@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+
+        <div class="header">
+            <h1>Results<img src="../static/results.svg" alt="fox" height=60px /></h1>
+            <p>Some information about results.</p>
+            <p>Some more information about results.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!--Dynamically display results from db-->
+        <!--Let the user click on the title or ISBN-->
+        <!--Pass the ISBN as an argument to the books route (even if title is clicked)-->
+        <!-- url_for(books.html, isbn =x[5]) -->
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Result</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">ISBN</th>
+                </tr>
+            </thead>    
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td><a href="#">Fahrenheit 451</a></td>
+                    <td>Ray Bradbury</td>
+                    <td>1953</td>
+                    <td><a href="#">978-0-7432-4722-1</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Spirit Walker</td>
+                    <td>Michelle Paver</td>
+                    <td>2005</td>
+                    <td>1-84255-170-1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

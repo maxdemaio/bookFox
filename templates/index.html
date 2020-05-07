@@ -13,11 +13,15 @@
             </div>
             <div class="right col-sm-6">
                 <h1>Welcome to Book Fox</h1>
+                {% if apology %}
+                    <p>{{ apology }}</p>
+                {% endif %}
                 <p>Some text here describing what to do</p>
                 <p>To get started, log in or <a href="/register">register</a></p>
 
                 <div id="sign-in">
-                    <form>
+                    <!--Redirect to search upon completion, error handling done at that route-->
+                    <form action="#" method="post">
                         <div class="username">
                             <label for="index-user">Username</label><br>
                             <input name="user" id="index-user">
@@ -26,7 +30,7 @@
                             <label for="index-pass">Password</label><br>
                             <input name="pass" type="password" id="index-pass">
                         </div>
-                        <button type="button" class="btn btn-dark">Login</button>
+                        <button type="submit" class="btn btn-dark">Login</button>
                     </form>
                 </div>
             </div>

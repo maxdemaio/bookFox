@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="header">
+            <h1>We are sorry!<img src="../static/apology.svg" alt="fox" height=60px /></h1>
+            <p>Some information about apologizing. {{ msg }}</p>
+            <p>Hey did you forget to sign in? If you haven't registered yet feel free to do so <a href="/register">here</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

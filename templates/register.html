@@ -13,9 +13,11 @@
                 <h1>Register<img src="../static/save.svg" alt="fox" height=60px /></h1>
                 <p>Some information about registering.</p>
                 <p>Some more information about registering.</p>
+                <!--If username already taken-->
                 {% if True %}
                 <div class="apology">
-                    We are sorry!
+                    That username is already taken, please try another one!
+                    <img src="../static/user_taken.svg" alt="fox" height=60px />
                 </div>
                 {%endif%}
             </div>
