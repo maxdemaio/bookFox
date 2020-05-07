@@ -44,8 +44,7 @@ input {
 }
 
 /* Apology flash */
-/* .apology {
-    text-align: left;
-    padding: 50px;
-    background-color: deepskyblue;
-} */
+.apology {
+    padding: 10px;
+    background-color: #cbd9f1;
+}
