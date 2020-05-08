@@ -61,9 +61,17 @@ def index():
     else:
         return render_template("index.html")
 
-@app.route("/register")
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    if request.method == "POST":
+        # Error handling (if user already taken)
+        # INSERT username and pass(hashed) into db
+        # show success message that they registered
+        # return render_template("success.html")
+        return render_template("register.html")
+    else:
+        return render_template("register.html")
 
 # Accept get and post methods. Post for login.
 @app.route("/search")
