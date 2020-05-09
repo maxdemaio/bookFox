@@ -1,4 +1,5 @@
 import os
+import logging
 import sys
 
 from flask import Flask, session, redirect, render_template, request, url_for
@@ -85,16 +86,21 @@ def search():
 def results():
     search = request.form['search']
     option = request.form['options']
-    print(option, flush=True)
+    print(search)
 
-    return render_template("results.html", search=search, option=option)
     # Query db based on search selection
     # get id of books as well (important for when we post to books/id#)
     # Display a table of information based on the user's search
-    
+
     # Limit to 40 results (disclaim this as well)
     # When the user searches by year, order alphabetically by title
     # Otherwise, order from newest to oldest
+    
+    print(db.execute(f"""SELECT * FROM books 
+        WHERE LOWER(books.{option}) LIKE LOWER(:search) LIMIT 5;""", {"search": "%"+search+"%"}).fetchall(), file=sys.stdout)
+    sys.stdout.flush()
+
+    return render_template("results.html", search=search, option=option)
 
 # Have this route accept id argument from result page
 @app.route("/books/<int:id>")
