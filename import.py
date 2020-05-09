@@ -10,6 +10,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+print(db.execute("""SELECT * FROM books;""").fetchone())
 
 # # Create  books, users, and reviews tables
 # db.execute("""CREATE TABLE books (
