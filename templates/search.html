@@ -17,26 +17,47 @@
         </div>
         <div id="right" class="col-sm-6">
             <div id="search-form">
-                <form>
+                <form name="myForm" action="{{ url_for('results') }}" method="post">
                     <div>
-                        <input id="isbn-select" type="radio" name="search-option" value="isbn">
+                        <input id="isbn-select" type="radio" name="options" value="ISBN" onclick="myFunc()">
                         <label for="isbn-select">ISBN</label>
 
-                        <input id="author-select" type="radio" name="search-option" value="author">
+                        <input id="author-select" type="radio" name="options" value="author" onclick="myFunc()">
                         <label for="author-select">Author</label>
 
-                        <input id="title-select" type="radio" name="search-option" value="title">
+                        <input id="title-select" type="radio" name="options" value="title" onclick="myFunc()">
                         <label for="title-select">Title</label>
                     </div>
                     <div>
                         <label for="search-input">Search for</label><br>
                         <input name="search" id="search-input">
                     </div>
-                    <button type="button" class="btn btn-dark">Search</button>
+                    <button id="search-submit" type="submit" class="btn btn-dark" disabled>Search</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    // If a radio button has been selected and input has been typed in, activate the submit button
+    function myFunc() {
+        if (document.querySelector("#search-input").value !== "") {
+            document.getElementById("search-submit").disabled = false;
+        }
+    }
+    document.querySelector("#search-input").onkeyup = function() {
+        if (document.querySelector("#search-input").value === "") {
+            document.getElementById("search-submit").disabled = true;
+        }
+        else {
+            var radios = document.getElementsByName("options");
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    document.getElementById("search-submit").disabled = false;
+                    break;
+                }
+            } 
+        }
+   }
+</script>
 {% endblock %}
