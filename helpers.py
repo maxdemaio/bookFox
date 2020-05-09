@@ -10,7 +10,6 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
-            apology = "Please login, or register if you have not already made an account"
             return render_template("apology.html")
         return f(*args, **kwargs)
     return decorated_function
