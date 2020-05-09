@@ -1,6 +1,7 @@
 import os
+import sys
 
-from flask import Flask, session, redirect, render_template, request
+from flask import Flask, session, redirect, render_template, request, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -35,12 +36,12 @@ def index():
 
         # Ensure username was submitted
         if not request.form.get("user"):
-            msg = "Please provide a username"
+            msg = "Please provide a username. Return back home in order to log in again."
             return render_template("apology.html", msg=msg)
 
         # Ensure password was submitted
         elif not request.form.get("pass"):
-            msg = "Please provide a password"
+            msg = "Please provide a password. Return back home in order to log in again."
             return render_template("apology.html", msg=msg)
 
         # TODO
@@ -70,20 +71,23 @@ def register():
         # show success message that they registered
         # return render_template("success.html")
         return render_template("register.html")
+
     else:
         return render_template("register.html")
 
-# Accept get and post methods. Post for login.
 @app.route("/search")
-@login_required
+# @login_required
 def search():
     return render_template("search.html")
 
-# Change to a post only route
-@app.route("/results")
+# Change to a post only route (only way to get to it is submitting @ search)
+@app.route("/results", methods=["POST"])
 def results():
+    search = request.form['search']
+    option = request.form['options']
+    print(option, flush=True)
 
-    # TODO
+    return render_template("results.html", search=search, option=option)
     # Query db based on search selection
     # get id of books as well (important for when we post to books/id#)
     # Display a table of information based on the user's search
@@ -91,9 +95,6 @@ def results():
     # Limit to 40 results (disclaim this as well)
     # When the user searches by year, order alphabetically by title
     # Otherwise, order from newest to oldest
-
-
-    return render_template("results.html")
 
 # Have this route accept id argument from result page
 @app.route("/books/<int:id>")
