@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Reviews
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="left col-sm-6">
+            <div class="header">
+                <h1>{{ title }}<img src="../static/book_detail.svg" alt="fox" height=60px /></h1>
+                <p><strong>{{ title }}</strong> was written by <strong>{{ author }}</strong> and published in <strong>{{ year }}</strong>.</p>
+                <h3>GoodReads API Information</h3>
+                <p><strong>Rating Count:</strong> {{ ratingCount }}</p>
+                <p><strong>Average Rating:</strong> {{ averageRating }}</p>
+            </div>
+        </div>
+
+        <div class="right col-sm-6">
+            <div class="myForms">
+                <form>
+                    <div>
+                        Your rating
+                        <input id="1" type="radio" name="options" value="1" onclick="myFunc()">
+                        <label for="isbn-select">1</label>
+                    
+                        <input id="2" type="radio" name="options" value="2" onclick="myFunc()">
+                        <label for="author-select">2</label>
+                    
+                        <input id="3" type="radio" name="options" value="3" onclick="myFunc()">
+                        <label for="title-select">3</label>
+
+                        <input id="4" type="radio" name="options" value="4" onclick="myFunc()">
+                        <label for="title-select">4</label>
+
+                        <input id="5" type="radio" name="options" value="5" onclick="myFunc()">
+                        <label for="title-select">5</label>
+                    </div>
+                    <div>
+                        <label for="search-input">Your review</label><br>
+                        <textarea></textarea>
+                    </div>
+                    <button id="search-submit" type="submit" class="btn btn-dark" disabled>Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock %}
