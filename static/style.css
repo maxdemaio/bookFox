@@ -10,12 +10,15 @@ footer {
     margin: 10px;
 }
 
-h1, h2 {
+h1, h2, h3 {
     color: #ca5116;
 }
 
-input {
-    border-radius: 5px;
+input { border-radius: 5px; }
+
+textarea { 
+    height: 200px;
+    width: 100%;
 }
 
 /* Distance from nav */
@@ -29,15 +32,36 @@ input {
 }
 
 /* Form stylings */
-#sign-in, #register, #search-form {
+.myForms {
     background-color: #f9b384;
     padding: 20px;
     border-radius: 10px;
 }
-#sign-in div, #register div, #search-form div {
+
+.myForms div {
     margin-bottom: 20px;
 }
 
+/* Table stylings */
+#results {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#results td, #results th {
+  border: 1px solid #581c0c;
+  padding: 8px;
+}
+
+#results tr:hover {background-color: #ddd;}
+
+#results th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #f9b384;
+  color: #581c0c;
+}
 /* Style h1 and logo */
 .header img {
     margin-left: 10px;
