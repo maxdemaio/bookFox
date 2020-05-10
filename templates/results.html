@@ -13,44 +13,37 @@
             <h1>Results<img src="../static/results.svg" alt="fox" height=60px /></h1>
             <p>You searched for the {{ option }}: "{{ search }}"</p>
             <p>Click on any book's title to see the reviews for that book. 
-                Click on a book's ISBN to get data in JSON format for that book. 
-                Please note the maximum number of books listed will be 50.
+                Click on a book's ISBN to get data in JSON format for that book.
             </p>
         </div>
     </div>
 
     <div class="row">
-        <!--Dynamically display results from db-->
-        <!--Let the user click on the title or ISBN-->
-        <!--Pass the ISBN as an argument to the books route (even if title is clicked)-->
-        <!-- url_for(books.html, isbn =x[5]) -->
-        <table>
+        {% if not apology %}
+        <table id="results">
             <thead>
                 <tr>
-                    <th scope="col">Result</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
                     <th scope="col">Year</th>
                     <th scope="col">ISBN</th>
                 </tr>
-            </thead>    
+            </thead> 
             <tbody>
+                {% for item in results %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td><a href="#">Fahrenheit 451</a></td>
-                    <td>Ray Bradbury</td>
-                    <td>1953</td>
-                    <td><a href="#">978-0-7432-4722-1</a></td>
+                    <td><a href="reviews/{{ item[1] }}">{{ item[2] }}</a></td>
+                    <td>{{ item[3] }}</td>
+                    <td>{{ item[4] }}</td>
+                    <td><a href="api/{{ item[1] }}">{{ item[1] }}</a></td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Spirit Walker</td>
-                    <td>Michelle Paver</td>
-                    <td>2005</td>
-                    <td>1-84255-170-1</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <p class="apology">We are sorry, no books matched your search.
+            Please return back to search to query again.</p>
+        {% endif %}
     </div>
 </div>
 

@@ -8,18 +8,18 @@
 
 <div class="container">
     <div class="row">
-        <div id="left" class="left col-sm-6">
+        <div class="left col-sm-6">
             <div class="header">
                 <h1>Search<img src="../static/search.svg" alt="fox" height=60px /></h1>
-                <p>Some information about searching.</p>
-                <p>Some more information about searching.</p>
+                <p>Search for a book in our database by ISBN, author, or title.</p>
+                <p>The results will be sorted by the most recently published book.</p>
             </div>
         </div>
-        <div id="right" class="col-sm-6">
-            <div id="search-form">
+        <div class="right col-sm-6">
+            <div class="myForms">
                 <form name="myForm" action="{{ url_for('results') }}" method="post">
                     <div>
-                        <input id="isbn-select" type="radio" name="options" value="ISBN" onclick="myFunc()">
+                        <input id="isbn-select" type="radio" name="options" value="isbn" onclick="myFunc()">
                         <label for="isbn-select">ISBN</label>
 
                         <input id="author-select" type="radio" name="options" value="author" onclick="myFunc()">

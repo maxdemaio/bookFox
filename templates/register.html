@@ -8,14 +8,14 @@
 
 <div class="container">
     <div class="row">
-        <div id="left" class="left col-sm-6">
+        <div class="left col-sm-6">
             <div class="header">
                 <h1>Register<img src="../static/save.svg" alt="fox" height=60px /></h1>
                 <p>Please register to be able to search our database of 5,000 books, 
                     read reviews by readers like you, and add your own reviews.</p>
                 <p>Registration is free!</p>
                 <!--If username already taken-->
-                {% if True %}
+                {% if False %}
                 <div class="apology">
                     That username is already taken, please try another one!
                     <img src="../static/user_taken.svg" alt="fox" height=60px />
@@ -23,8 +23,8 @@
                 {%endif%}
             </div>
         </div>
-        <div id="right" class="col-sm-6">
-            <div id="register">
+        <div class="right col-sm-6">
+            <div class="myForms">
                 <form>
                     <div class="username">
                         <label for="register-user">Username</label><br>
