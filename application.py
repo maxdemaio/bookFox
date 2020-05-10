@@ -1,13 +1,11 @@
 import os
-import logging
-import sys
 
 from flask import Flask, session, redirect, render_template, request, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from helpers import login_required
+from helpers import login_required, obtain_response
 
 app = Flask(__name__)
 
@@ -63,7 +61,6 @@ def index():
     else:
         return render_template("index.html")
 
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -81,34 +78,47 @@ def register():
 def search():
     return render_template("search.html")
 
-# Change to a post only route (only way to get to it is submitting @ search)
 @app.route("/results", methods=["POST"])
 def results():
+    # Obtain user's search query from form
     search = request.form['search']
     option = request.form['options']
-    print(search)
-
-    # Query db based on search selection
-    # get id of books as well (important for when we post to books/id#)
-    # Display a table of information based on the user's search
-
-    # Limit to 40 results (disclaim this as well)
-    # When the user searches by year, order alphabetically by title
-    # Otherwise, order from newest to oldest
+    apology = False
     
-    print(db.execute(f"""SELECT * FROM books 
-        WHERE LOWER(books.{option}) LIKE LOWER(:search) LIMIT 5;""", {"search": "%"+search+"%"}).fetchall(), file=sys.stdout)
-    sys.stdout.flush()
+    # Query db per user specification
+    results = db.execute(f"""SELECT * FROM books 
+        WHERE LOWER(books.{option}) LIKE LOWER(:search) ORDER BY year DESC;""", {"search": "%"+search+"%"}).fetchall()
 
-    return render_template("results.html", search=search, option=option)
+    # No matches
+    if len(results) == 0:
+        apology = True
 
-# Have this route accept id argument from result page
-@app.route("/books/<int:id>")
-def books(id):
+    return render_template("results.html", search=search, option=option, results=results, apology=apology)
+
+@app.route("/reviews/<isbn>")
+def reviews(isbn):
 
     # TODO
     # Contact the API using the isbn (retrieved by using id)
-
-
     # Render the books bage with all Goodreads info, and info from our website
-    return render_template("books.html", id=id)
+    bookData = db.execute("""SELECT title, author, year FROM books WHERE isbn = :isbn""", {"isbn": isbn}).fetchone()
+
+    if bookData == None:
+        msg = "No book in our database matched that ISBN. Please return back to search to query again."
+        return render_template("apology.html", msg=msg)
+
+    title = bookData[0]
+    author = bookData[1]
+    year = bookData[2]
+
+    # GoodReads API data
+    apiData = obtain_response(isbn)
+    ratingCount, averageRating = apiData[0], apiData[1]
+
+    return render_template("reviews.html", title=title, author=author, 
+        year=year, isbn=isbn, ratingCount=ratingCount, averageRating=averageRating)
+
+@app.route("/api/<isbn>")
+def api(isbn):
+    # Contact my API using the isbn (retrieved by using id)
+    return render_template("api.html", isbn=isbn)
