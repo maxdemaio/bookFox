@@ -28,3 +28,8 @@ def obtain_response(isbn):
     averageRating = data["books"][0]["average_rating"]
 
     return [ratingsCount, averageRating]
+
+def hashPass(password):
+    pass
+
+
