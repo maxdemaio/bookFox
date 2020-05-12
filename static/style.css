@@ -16,7 +16,9 @@ h1, h2, h3 {
 
 input { border-radius: 5px; }
 
+/* User review */
 textarea { 
+    border-radius: 5px;
     height: 200px;
     width: 100%;
 }
