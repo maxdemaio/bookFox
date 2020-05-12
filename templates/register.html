@@ -15,7 +15,7 @@
                     read reviews by readers like you, and add your own reviews.</p>
                 <p>Registration is free!</p>
                 <!--If username already taken-->
-                {% if False %}
+                {% if apology %}
                 <div class="apology">
                     That username is already taken, please try another one!
                     <img src="../static/user_taken.svg" alt="fox" height=60px />
@@ -25,16 +25,20 @@
         </div>
         <div class="right col-sm-6">
             <div class="myForms">
-                <form>
+                <form action="{{ url_for('register') }}" method="post">
                     <div class="username">
-                        <label for="register-user">Username</label><br>
+                        <label for="register-user">Username (3 characters or more)</label><br>
                         <input name="user" id="register-user">
                     </div>
                     <div class="pass">
-                        <label for="register-password">Password</label><br>
+                        <label for="register-password">Password (5 characters or more)</label><br>
                         <input name="password" type="password" id="register-password">
                     </div>
-                    <button type="button" class="btn btn-dark">Register</button>
+                    <div class="confirm">
+                        <label for="register-confirmation">Confirm password</label><br>
+                        <input name="confirmation" type="password" id="register-confirmation">
+                    </div>
+                    <button type="submit" class="btn btn-dark">Register</button>
                 </form>
             </div>
         </div>
