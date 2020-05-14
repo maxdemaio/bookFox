@@ -20,7 +20,7 @@
 
         <div class="right col-sm-6">
             <div class="myForms">
-                <form>
+                <form action="/reviews/{{ isbn }}" method="post">
                     <div>
                         Your rating
                         <input id="1" type="radio" name="options" value="1" onclick="myFunc()">
@@ -39,17 +39,57 @@
                         <label for="title-select">5</label>
                     </div>
                     <div>
-                        <label for="search-input">Your review</label><br>
-                        <textarea></textarea>
+                        <label for="review-input">Your review</label><br>
+                        <textarea id="review-input" name="review"></textarea>
                     </div>
-                    <button id="search-submit" type="submit" class="btn btn-dark" disabled>Submit</button>
+                    <button id="review-submit" type="submit" class="btn btn-dark" disabled>Submit</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <div class="header">
+        <h2>User Reviews</h2>
+    </div>
+    
+    {% if True %}
+    {% for review in reviews %}
+    <div>
+        <ul>
+            <li>User:</li>
+            <li>Score: {{ review[0] }}</li>
+            <li>Review: {{ review[1] }}</li>
+        </ul>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    <div class="apology">
+        <p>No reviews have been written for {{ title }} yet.</p>
+    </div>
+    {% endif %}
 </div>
 
 <script>
-
+    // If a radio button has been selected and input has been typed in, activate the submit button
+    function myFunc() {
+        if (document.querySelector("#review-input").value !== "") {
+            document.getElementById("review-submit").disabled = false;
+        }
+    }
+    document.querySelector("#review-input").onkeyup = function () {
+        if (document.querySelector("#review-input").value === "") {
+            document.getElementById("review-submit").disabled = true;
+        }
+        else {
+            var radios = document.getElementsByName("options");
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    document.getElementById("review-submit").disabled = false;
+                    break;
+                }
+            }
+        }
+    }
 </script>
 {% endblock %}
