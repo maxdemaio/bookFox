@@ -75,11 +75,11 @@ def register():
 
         # Check if password has valid length
         elif len(password) < 5:
-            return render_template("apology.html", msg="Password did not meet required length")
+            return render_template("apology.html", msg="Password did not meet required length.")
 
          # Check if both passwords match
         elif password != confirmation:
-            return render_template("apology.html", msg="Passwords did not match")
+            return render_template("apology.html", msg="Passwords did not match.")
 
         # All checks met
         else:
@@ -99,7 +99,7 @@ def search():
 
 @app.route("/results", methods=["POST"])
 def results():
-    # Obtain user's search query from form
+    # Obtain user's search query from search form
     search = request.form['search']
     option = request.form['options']
     apology = False
@@ -115,29 +115,70 @@ def results():
 
     return render_template("results.html", search=search, option=option, results=results, apology=apology)
 
-@app.route("/reviews/<isbn>")
+
+@app.route("/reviews/<isbn>", methods=["GET", "POST"])
 @login_required
 def reviews(isbn):
+    if request.method == "POST":
+        # Obtain form data
+        review = request.form["review"]
+        score = request.form["options"]
+        user_id = session["user_id"]
 
-    # TODO
-    # Contact the API using the isbn (retrieved by using id)
-    # Render the books bage with all Goodreads info, and info from our website
-    bookData = db.execute("""SELECT title, author, year FROM books WHERE isbn = :isbn""", {"isbn": isbn}).fetchone()
+        # Get book ID of current book
+        book_id = db.execute("""SELECT id FROM books WHERE isbn = :isbn""", {
+                              "isbn": isbn}).fetchone()[0]
+        # TODO
+        # Check length of review
 
-    if bookData == None:
-        msg = "No book in our database matched that ISBN. Please return back to search to query again."
-        return render_template("apology.html", msg=msg)
 
-    title = bookData[0]
-    author = bookData[1]
-    year = bookData[2]
+        # Check if user has already submitted a review for book
+        if len(db.execute("SELECT * FROM reviews WHERE user_id = (:user_id)", {"user_id": user_id}).fetchall()) > 0:
+            return render_template("apology.html", msg="You have already submitted a review for this book.")
 
-    # GoodReads API data
-    apiData = obtain_response(isbn)
-    ratingCount, averageRating = apiData[0], apiData[1]
+        # Insert user review into the reviews table in the database
+        db.execute("INSERT INTO reviews (user_id, book_id, score, review) VALUES (:user_id, :book_id, :score, :review)",
+                   {"user_id": user_id, "book_id": book_id, "score": score, "review": review})
+        db.commit()
 
-    return render_template("reviews.html", title=title, author=author, 
-        year=year, isbn=isbn, ratingCount=ratingCount, averageRating=averageRating)
+        print(f"Inserted {review} with a score of {score} as {user_id}'s review of book {book_id}")
+
+        # successfully submitted review page
+        return redirect("/")
+
+    else:
+        # Check for the book in our database via ISBN
+        bookData = db.execute("""SELECT title, author, year FROM books WHERE isbn = :isbn""", {"isbn": isbn}).fetchone()
+
+        if bookData == None:
+            msg = "No book in our database matched that ISBN. Please return back to search to query again."
+            return render_template("apology.html", msg=msg)
+
+        title = bookData[0]
+        author = bookData[1]
+        year = bookData[2]
+
+        # Render the books page with all Goodreads API info
+        apiData = obtain_response(isbn)
+        ratingCount, averageRating = apiData[0], apiData[1]
+
+        # Get book-ID of current book
+        book_id = db.execute("""SELECT id FROM books WHERE isbn = :isbn""", {
+            "isbn": isbn}).fetchone()[0]
+        
+        # Get reviews for current book
+        reviews = db.execute("SELECT score,review FROM reviews WHERE book_id = (:book_id)", {"book_id": book_id}).fetchall()
+
+        # TODO
+        # Get users who have left a review for current book
+        # First we get all user_ids for current book
+        # Then for all the user_ids we need to get the usernames
+        # Make compound SQL query! (select*from users where id=(select user_id from reviews where isbn=current isbn))
+        
+        print(reviews)
+
+        return render_template("reviews.html", title=title, author=author, 
+            year=year, isbn=isbn, ratingCount=ratingCount, averageRating=averageRating, reviews=reviews)
 
 @app.route("/api/<isbn>")
 @login_required
