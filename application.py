@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, redirect, render_template, request, url_for
+from flask import Flask, jsonify, session, redirect, render_template, request, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -26,6 +26,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    """Homepage"""
+
     # User reached route via POST (as by submitting login via POST)
     if request.method == "POST":
 
@@ -58,6 +60,8 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """Register a user for Book Fox"""
+
     if request.method == "POST":
         # Grab data from form
         username = request.form['user']
@@ -95,10 +99,14 @@ def register():
 @app.route("/search")
 @login_required
 def search():
+    """Display search options"""
+
     return render_template("search.html")
 
 @app.route("/results", methods=["POST"])
 def results():
+    """Display search results"""
+
     # Obtain user's search query from search form
     search = request.form['search']
     option = request.form['options']
@@ -119,6 +127,8 @@ def results():
 @app.route("/reviews/<isbn>", methods=["GET", "POST"])
 @login_required
 def reviews(isbn):
+    """Display reviews, allow posting of reviews"""
+
     if request.method == "POST":
         # Obtain form data
         review = request.form["review"]
@@ -128,9 +138,6 @@ def reviews(isbn):
         # Get book ID of current book
         book_id = db.execute("""SELECT id FROM books WHERE isbn = :isbn""", {
                               "isbn": isbn}).fetchone()[0]
-        # TODO
-        # Check length of review
-
 
         # Check if user has already submitted a review for book
         if len(db.execute("SELECT * FROM reviews WHERE user_id = (:user_id)", {"user_id": user_id}).fetchall()) > 0:
@@ -169,22 +176,40 @@ def reviews(isbn):
         # Get reviews for current book
         reviews = db.execute("SELECT score,review FROM reviews WHERE book_id = (:book_id)", {"book_id": book_id}).fetchall()
 
-        # TODO
         # Get users who have left a review for current book
-        # First we get all user_ids for current book
-        # Then for all the user_ids we need to get the usernames
-        # Make compound SQL query! (select*from users where id=(select user_id from reviews where isbn=current isbn))
-        
-        print(reviews)
-
+        users = db.execute("""SELECT username FROM users WHERE id =
+            (SELECT user_id FROM reviews WHERE book_id = (:book_id))""", {"book_id": book_id}).fetchall()
+            
         return render_template("reviews.html", title=title, author=author, 
-            year=year, isbn=isbn, ratingCount=ratingCount, averageRating=averageRating, reviews=reviews)
+            year=year, isbn=isbn, ratingCount=ratingCount, 
+            users=users, averageRating=averageRating, reviews=reviews)
 
 @app.route("/api/<isbn>")
 @login_required
 def api(isbn):
-    # Contact my API using the isbn (retrieved by using id)
-    return render_template("api.html", isbn=isbn)
+    """Return details about a single book"""
+
+    # Check if book exists
+    if db.execute("""SELECT id FROM books WHERE isbn = :isbn""", {"isbn": isbn}).fetchone() == None:
+        return jsonify({"error": "Invalid ISBN"})
+
+    # Get book_id
+    book_id = db.execute("""SELECT id FROM books WHERE isbn = :isbn""", {
+        "isbn": isbn}).fetchone()[0]
+
+    # Get book (id, isbn, review_count, average_score)
+    review_info = db.execute("""SELECT AVG(score),COUNT(*) FROM reviews 
+        WHERE book_id = :book_id""", {"book_id": book_id}).fetchall()
+
+    book_info = {
+        "isbn": isbn,
+        "book_id": book_id,
+        "average_score": review_info[0][0],
+        "review_count": review_info[0][1]
+    }
+
+    # Display API data
+    return jsonify(book_info)
 
 @app.route("/logout")
 def logout():
