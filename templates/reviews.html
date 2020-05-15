@@ -12,10 +12,31 @@
             <div class="header">
                 <h1>{{ title }}<img src="../static/book_detail.svg" alt="fox" height=60px /></h1>
                 <p><strong>{{ title }}</strong> was written by <strong>{{ author }}</strong> and published in <strong>{{ year }}</strong>.</p>
-                <h3>GoodReads API Information</h3>
+                <h2>GoodReads API Information</h2>
                 <p><strong>Rating Count:</strong> {{ ratingCount }}</p>
-                <p><strong>Average Rating:</strong> {{ averageRating }}</p>
+                <p><strong>Average Rating:</strong> {{ averageRating }}/5</p>
             </div>
+
+            <div class="header">
+                <h2>User Reviews</h2>
+            </div>
+            
+            {% if reviews|length > 0 %}
+            {% for review in reviews %}
+            <div>
+                <ul>
+                    <li>User: {{ users[0][0] }}</li>
+                    <li>Score: {{ review[0] }}.5</li>
+                    <li>Review: {{ review[1] }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+            
+            {% else %}
+            <div class="apology">
+                <p>No reviews have been written for {{ title }} yet.</p>
+            </div>
+            {% endif %}
         </div>
 
         <div class="right col-sm-6">
@@ -39,35 +60,14 @@
                         <label for="title-select">5</label>
                     </div>
                     <div>
-                        <label for="review-input">Your review</label><br>
-                        <textarea id="review-input" name="review"></textarea>
+                        <label for="review-input">Your review (1,000 character limit)</label><br>
+                        <textarea id="review-input" name="review" maxlength="1000"></textarea>
                     </div>
                     <button id="review-submit" type="submit" class="btn btn-dark" disabled>Submit</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <div class="header">
-        <h2>User Reviews</h2>
-    </div>
-    
-    {% if True %}
-    {% for review in reviews %}
-    <div>
-        <ul>
-            <li>User:</li>
-            <li>Score: {{ review[0] }}</li>
-            <li>Review: {{ review[1] }}</li>
-        </ul>
-    </div>
-    {% endfor %}
-
-    {% else %}
-    <div class="apology">
-        <p>No reviews have been written for {{ title }} yet.</p>
-    </div>
-    {% endif %}
 </div>
 
 <script>
