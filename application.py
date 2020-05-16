@@ -1,4 +1,5 @@
 import os
+import settings
 
 from flask import Flask, jsonify, session, redirect, render_template, request, url_for
 from flask_session import Session
@@ -56,6 +57,7 @@ def index():
             return redirect(url_for("search"))
 
     else:
+        print(os.getenv("API_KEY"))
         return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
