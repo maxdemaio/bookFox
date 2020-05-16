@@ -9,7 +9,6 @@ __pycache__/
 # Personal
 flask_session/
 .vscode/
-settings.py
 
 # Distribution / packaging
 .Python
