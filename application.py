@@ -57,7 +57,6 @@ def index():
             return redirect(url_for("search"))
 
     else:
-        print(os.getenv("API_KEY"))
         return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -142,7 +141,8 @@ def reviews(isbn):
                               "isbn": isbn}).fetchone()[0]
 
         # Check if user has already submitted a review for book
-        if len(db.execute("SELECT * FROM reviews WHERE user_id = (:user_id)", {"user_id": user_id}).fetchall()) > 0:
+        if len(db.execute("SELECT * FROM reviews WHERE user_id = (:user_id) AND book_id = (:book_id)", 
+        {"user_id": user_id, "book_id": book_id}).fetchall()) > 0:
             return render_template("apology.html", msg="You have already submitted a review for this book.")
 
         # Insert user review into the reviews table in the database
@@ -153,7 +153,7 @@ def reviews(isbn):
         print(f"Inserted {review} with a score of {score} as {user_id}'s review of book {book_id}")
 
         # successfully submitted review page
-        return redirect("/")
+        return render_template("success.html", isbn=isbn)
 
     else:
         # Check for the book in our database via ISBN
@@ -179,12 +179,20 @@ def reviews(isbn):
         reviews = db.execute("SELECT score,review FROM reviews WHERE book_id = (:book_id)", {"book_id": book_id}).fetchall()
 
         # Get users who have left a review for current book
-        users = db.execute("""SELECT username FROM users WHERE id =
-            (SELECT user_id FROM reviews WHERE book_id = (:book_id))""", {"book_id": book_id}).fetchall()
-            
+        usernames = []
+
+        user_ids = db.execute("""SELECT user_id FROM reviews WHERE book_id = (:book_id)""", 
+            {"book_id": book_id}).fetchall()
+
+        print(user_ids)
+        for x in range(0, len(user_ids)):
+            user = db.execute(f"""SELECT username FROM users WHERE id = {user_ids[x][0]}""").fetchone()
+            usernames.append(user)
+        
+        print(usernames)
         return render_template("reviews.html", title=title, author=author, 
             year=year, isbn=isbn, ratingCount=ratingCount, 
-            users=users, averageRating=averageRating, reviews=reviews)
+            usernames=usernames, averageRating=averageRating, reviews=reviews)
 
 @app.route("/api/<isbn>")
 @login_required
