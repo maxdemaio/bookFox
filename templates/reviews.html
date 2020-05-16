@@ -22,12 +22,12 @@
             </div>
             
             {% if reviews|length > 0 %}
-            {% for review in reviews %}
+            {% for n in range(reviews|length) %}
             <div>
                 <ul>
-                    <li>User: {{ users[0][0] }}</li>
-                    <li>Score: {{ review[0] }}/5</li>
-                    <li>Review: {{ review[1] }}</li>
+                    <li>User: {{ usernames[n][0] }}</li>
+                    <li>Score: {{ reviews[n][0] }}/5</li>
+                    <li>Review: {{ reviews[n][1] }}</li>
                 </ul>
             </div>
             {% endfor %}
