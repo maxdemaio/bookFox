@@ -184,12 +184,10 @@ def reviews(isbn):
         user_ids = db.execute("""SELECT user_id FROM reviews WHERE book_id = (:book_id)""", 
             {"book_id": book_id}).fetchall()
 
-        print(user_ids)
         for x in range(0, len(user_ids)):
             user = db.execute(f"""SELECT username FROM users WHERE id = {user_ids[x][0]}""").fetchone()
             usernames.append(user)
         
-        print(usernames)
         return render_template("reviews.html", title=title, author=author, 
             year=year, isbn=isbn, ratingCount=ratingCount, 
             usernames=usernames, averageRating=averageRating, reviews=reviews)
